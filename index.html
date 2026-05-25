@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プログラム検定 レベル1（JavaScript）練習問題</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="start-screen" class="screen active">
+    <div class="start-container">
+      <div class="start-badge">練習モード</div>
+      <h1>プログラム検定</h1>
+      <h2>レベル1（JavaScript）</h2>
+      <p class="start-desc">全20問 ／ 制限時間 40分</p>
+      <div class="start-topics">
+        <h3>出題範囲</h3>
+        <ul>
+          <li>変数と出力</li>
+          <li>文字列の連結</li>
+          <li>四則演算</li>
+          <li>条件分岐（if文）</li>
+          <li>繰り返し（for文・while文）</li>
+          <li>配列の基本</li>
+          <li>関数の基本</li>
+        </ul>
+      </div>
+      <button id="start-btn">スタート</button>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="screen">
+    <header>
+      <button id="prev-btn" disabled>まえへ</button>
+      <div class="header-center">
+        <div class="header-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="12" height="12" rx="2"/>
+            <line x1="5" y1="5.5" x2="11" y2="5.5"/>
+            <line x1="5" y1="8" x2="11" y2="8"/>
+            <line x1="5" y1="10.5" x2="9" y2="10.5"/>
+          </svg>
+          問題 <strong id="current-num">1</strong> ／ 20
+        </div>
+        <div class="header-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="8" r="6"/>
+            <polyline points="8,4 8,8 11,10"/>
+          </svg>
+          残り時間 <strong id="timer-display">40分 00秒</strong>
+        </div>
+      </div>
+      <button id="next-btn">つぎへ</button>
+    </header>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <main>
+      <div id="question-panel">
+        <div class="question-label" id="question-label">問題1</div>
+        <div class="question-text" id="question-text"></div>
+        <pre class="question-code" id="question-code"></pre>
+      </div>
+      <div id="options-panel"></div>
+    </main>
+  </div>
+
+  <div id="results-screen" class="screen">
+    <div class="results-container">
+      <h1>結果発表</h1>
+      <div class="score-circle" id="score-circle">
+        <span class="score-value" id="score-value">0</span>
+        <span class="score-total">/ 20</span>
+      </div>
+      <p class="score-message" id="score-message"></p>
+      <div class="results-grid" id="results-grid"></div>
+      <div class="review-section" id="review-section"></div>
+      <div class="results-actions">
+        <button id="review-btn" class="btn-secondary">解答を確認する</button>
+        <button id="retry-btn">もう一度挑戦する</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
