@@ -1,248 +1,8 @@
-const EXAM_TIME = 40 * 60;
-
-const questions = [
-  {
-    question: "「おはようございます」と出力されるプログラムを選択しなさい",
-    options: [
-      { code: 'let text1 = "おはよう";\nlet text2 = "ございます";\n\nconsole.log(text1 + text2);' },
-      { code: 'let text1 = "おはよう";\nlet text2 = "ございます";\n\nconsole.log(text1 - text2);' },
-      { code: 'let text1 = "おはよう";\nlet text2 = "ございます";\n\nconsole.log("text1" + "text2");' },
-      { code: 'let text1 = "おはよう";\nlet text2 = "ございます";\n\nconsole.log(text2 + text1);' }
-    ],
-    answer: 0,
-    explanation: "文字列の連結には + 演算子を使います。text1 + text2 で「おはよう」+「ございます」=「おはようございます」になります。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let x = 10;\nlet y = 3;\n\nconsole.log(x + y);',
-    options: [
-      { text: "13" },
-      { text: "103" },
-      { text: "10 + 3" },
-      { text: "x + y" }
-    ],
-    answer: 0,
-    explanation: "x と y はどちらも数値なので、+ 演算子は加算として動作します。10 + 3 = 13 です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let x = "10";\nlet y = 3;\n\nconsole.log(x + y);',
-    options: [
-      { text: "13" },
-      { text: "103" },
-      { text: "エラーになる" },
-      { text: "NaN" }
-    ],
-    answer: 1,
-    explanation: 'x は文字列の "10" なので、+ 演算子は文字列の連結として動作します。"10" + 3 → "103" になります。'
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let x = 5;\nx = x + 3;\n\nconsole.log(x);",
-    options: [
-      { text: "5" },
-      { text: "3" },
-      { text: "8" },
-      { text: "53" }
-    ],
-    answer: 2,
-    explanation: "x に 5 を代入した後、x + 3（= 8）を再び x に代入しています。最終的に x は 8 です。"
-  },
-  {
-    question: "「こんにちは太郎さん」と出力されるプログラムを選択しなさい",
-    options: [
-      { code: 'let name = "太郎";\n\nconsole.log("こんにちは" + name + "さん");' },
-      { code: 'let name = "太郎";\n\nconsole.log("こんにちは" + "name" + "さん");' },
-      { code: 'let name = "太郎";\n\nconsole.log(こんにちは + name + さん);' },
-      { code: 'let name = "太郎";\n\nconsole.log("こんにちはnameさん");' }
-    ],
-    answer: 0,
-    explanation: '変数 name の値を使うには、クォーテーションで囲まずに変数名をそのまま書きます。"name" と書くと文字列の "name" になってしまいます。'
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'console.log("Hello");\nconsole.log("World");',
-    options: [
-      { text: "HelloWorld" },
-      { text: "Hello World" },
-      { text: "Hello\nWorld" },
-      { text: "World\nHello" }
-    ],
-    answer: 2,
-    explanation: "console.log() は出力の後に自動で改行します。そのため Hello と World は別々の行に表示されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let x = 10;\nlet y = 3;\n\nconsole.log(x * y);",
-    options: [
-      { text: "30" },
-      { text: "13" },
-      { text: "7" },
-      { text: "103" }
-    ],
-    answer: 0,
-    explanation: "* 演算子は掛け算（乗算）です。10 * 3 = 30 になります。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let x = 10;\nlet y = 4;\n\nconsole.log(x % y);",
-    options: [
-      { text: "2.5" },
-      { text: "2" },
-      { text: "6" },
-      { text: "0" }
-    ],
-    answer: 1,
-    explanation: "% は剰余（余り）演算子です。10 ÷ 4 = 2 あまり 2 なので、結果は 2 です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let x = "Hello";\nx = "World";\n\nconsole.log(x);',
-    options: [
-      { text: "Hello" },
-      { text: "World" },
-      { text: "HelloWorld" },
-      { text: "エラーになる" }
-    ],
-    answer: 1,
-    explanation: "let で宣言した変数は再代入できます。x に \"World\" を再代入したので、最終的な x の値は \"World\" です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let x = 10;\n\nif (x > 5) {\n  console.log("大きい");\n}',
-    options: [
-      { text: "大きい" },
-      { text: "何も出力されない" },
-      { text: "x > 5" },
-      { text: "true" }
-    ],
-    answer: 0,
-    explanation: "x は 10 で、10 > 5 は true です。条件が true なので if ブロック内の処理が実行されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let x = 3;\n\nif (x > 5) {\n  console.log("大きい");\n} else {\n  console.log("小さい");\n}',
-    options: [
-      { text: "大きい" },
-      { text: "小さい" },
-      { text: "大きい\n小さい" },
-      { text: "何も出力されない" }
-    ],
-    answer: 1,
-    explanation: "x は 3 で、3 > 5 は false です。条件が false なので else ブロック内の処理が実行されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let score = 75;\n\nif (score >= 80) {\n  console.log("A");\n} else if (score >= 60) {\n  console.log("B");\n} else {\n  console.log("C");\n}',
-    options: [
-      { text: "A" },
-      { text: "B" },
-      { text: "C" },
-      { text: "A\nB" }
-    ],
-    answer: 1,
-    explanation: "score は 75 です。75 >= 80 は false、次の 75 >= 60 は true なので \"B\" が出力されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "for (let i = 1; i <= 3; i++) {\n  console.log(i);\n}",
-    options: [
-      { text: "0\n1\n2" },
-      { text: "1\n2\n3" },
-      { text: "1\n2\n3\n4" },
-      { text: "3" }
-    ],
-    answer: 1,
-    explanation: "i は 1 から始まり、i <= 3 の間ループします。i が 1, 2, 3 のとき実行され、4 になるとループ終了です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let sum = 0;\n\nfor (let i = 1; i <= 5; i++) {\n  sum = sum + i;\n}\n\nconsole.log(sum);",
-    options: [
-      { text: "5" },
-      { text: "10" },
-      { text: "15" },
-      { text: "0" }
-    ],
-    answer: 2,
-    explanation: "sum に 1 + 2 + 3 + 4 + 5 を順番に加算していきます。0+1+2+3+4+5 = 15 です。"
-  },
-  {
-    question: "3, 2, 1 の順に出力されるプログラムを選択しなさい",
-    options: [
-      { code: "for (let i = 1; i <= 3; i++) {\n  console.log(i);\n}" },
-      { code: "for (let i = 3; i >= 1; i--) {\n  console.log(i);\n}" },
-      { code: "for (let i = 3; i > 1; i--) {\n  console.log(i);\n}" },
-      { code: "for (let i = 1; i >= 3; i--) {\n  console.log(i);\n}" }
-    ],
-    answer: 1,
-    explanation: "i を 3 から始めて i >= 1 の間 i-- で 1 ずつ減らすと、3, 2, 1 の順に出力されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let fruits = ["りんご", "みかん", "ぶどう"];\n\nconsole.log(fruits[0]);',
-    options: [
-      { text: "りんご" },
-      { text: "みかん" },
-      { text: "ぶどう" },
-      { text: "エラーになる" }
-    ],
-    answer: 0,
-    explanation: "配列のインデックスは 0 から始まります。fruits[0] は最初の要素「りんご」です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: 'let fruits = ["りんご", "みかん", "ぶどう"];\n\nconsole.log(fruits.length);',
-    options: [
-      { text: "2" },
-      { text: "3" },
-      { text: "4" },
-      { text: "ぶどう" }
-    ],
-    answer: 1,
-    explanation: ".length は配列の要素数を返します。fruits には 3 つの要素があるので 3 が出力されます。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "function add(a, b) {\n  return a + b;\n}\n\nconsole.log(add(3, 4));",
-    options: [
-      { text: "34" },
-      { text: "7" },
-      { text: "add(3, 4)" },
-      { text: "エラーになる" }
-    ],
-    answer: 1,
-    explanation: "関数 add は引数 a と b を受け取り、a + b を返します。add(3, 4) は 3 + 4 = 7 です。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let i = 1;\n\nwhile (i <= 3) {\n  console.log(i);\n  i++;\n}",
-    options: [
-      { text: "1\n2\n3" },
-      { text: "1\n2\n3\n4" },
-      { text: "0\n1\n2\n3" },
-      { text: "何も出力されない" }
-    ],
-    answer: 0,
-    explanation: "i は 1 から始まり、i <= 3 の間ループします。各ループで i を出力した後 i++ で 1 増やします。"
-  },
-  {
-    question: "次のプログラムの実行結果を選びなさい",
-    code: "let a = 5;\nlet b = a;\na = 10;\n\nconsole.log(b);",
-    options: [
-      { text: "10" },
-      { text: "5" },
-      { text: "a" },
-      { text: "エラーになる" }
-    ],
-    answer: 1,
-    explanation: "b = a の時点で a の値（5）が b にコピーされます。その後 a を 10 に変更しても b は 5 のままです。"
-  }
-];
-
+let currentLevel = null;
 let currentQuestion = 0;
-let answers = new Array(questions.length).fill(null);
-let timeLeft = EXAM_TIME;
+let questions = [];
+let answers = [];
+let timeLeft = 0;
 let timerInterval = null;
 let isReviewMode = false;
 
@@ -253,11 +13,64 @@ function showScreen(screenId) {
   $(screenId).classList.add("active");
 }
 
-function startQuiz() {
+function buildLevelGrid() {
+  const grid = $("level-grid");
+  grid.innerHTML = "";
+  for (let lv = 1; lv <= 6; lv++) {
+    const data = levelData[lv];
+    const card = document.createElement("div");
+    card.className = "level-card";
+    card.style.borderTopColor = data.color;
+
+    const badge = document.createElement("div");
+    badge.className = "level-num";
+    badge.style.background = data.color;
+    badge.textContent = lv;
+
+    const title = document.createElement("div");
+    title.className = "level-title";
+    title.textContent = data.name;
+
+    const topics = document.createElement("div");
+    topics.className = "level-topics";
+    topics.textContent = data.topics.join("、");
+
+    const info = document.createElement("div");
+    info.className = "level-info";
+    info.textContent = data.questions.length + "問 / " + data.time + "分";
+
+    const btn = document.createElement("button");
+    btn.className = "level-start-btn";
+    btn.style.background = data.color;
+    btn.textContent = "スタート";
+    btn.addEventListener("click", () => startQuiz(lv));
+
+    card.appendChild(badge);
+    card.appendChild(title);
+    card.appendChild(topics);
+    card.appendChild(info);
+    card.appendChild(btn);
+    grid.appendChild(card);
+  }
+}
+
+function startQuiz(level) {
+  currentLevel = level;
+  const data = levelData[level];
+  questions = data.questions;
   currentQuestion = 0;
   answers = new Array(questions.length).fill(null);
-  timeLeft = EXAM_TIME;
+  timeLeft = data.time * 60;
   isReviewMode = false;
+
+  $("total-num").textContent = questions.length;
+  $("level-badge-header").textContent = data.name;
+  $("level-badge-header").style.background = data.color;
+  $("level-badge-header").style.padding = "2px 12px";
+  $("level-badge-header").style.borderRadius = "12px";
+  $("level-badge-header").style.fontSize = "12px";
+  $("level-badge-header").style.fontWeight = "600";
+
   showScreen("quiz-screen");
   showQuestion(0);
   startTimer();
@@ -349,15 +162,16 @@ function renderOptions(q, qIndex) {
     const contentDiv = document.createElement("div");
     contentDiv.className = "option-content";
 
-    if (opt.code !== undefined) {
+    if (typeof opt === "object" && opt.code !== undefined) {
       const pre = document.createElement("pre");
       pre.className = "option-code";
       pre.textContent = opt.code;
       contentDiv.appendChild(pre);
     } else {
+      const text = typeof opt === "string" ? opt : opt.text;
       const textDiv = document.createElement("div");
       textDiv.className = "option-text";
-      textDiv.textContent = opt.text;
+      textDiv.textContent = text;
       contentDiv.appendChild(textDiv);
     }
 
@@ -423,21 +237,22 @@ function showResults() {
   });
 
   $("score-value").textContent = correct;
+  $("score-total-num").textContent = questions.length;
 
   const circle = $("score-circle");
   circle.classList.remove("excellent", "fail");
-  if (correct >= 14) {
+  const pct = Math.round((correct / questions.length) * 100);
+  if (pct >= 70) {
     circle.classList.add("excellent");
   } else {
     circle.classList.add("fail");
   }
 
   const msgEl = $("score-message");
-  const pct = Math.round((correct / questions.length) * 100);
   if (correct === questions.length) {
     msgEl.textContent = "満点！素晴らしい！";
     msgEl.className = "score-message pass";
-  } else if (correct >= 14) {
+  } else if (pct >= 70) {
     msgEl.textContent = pct + "点！合格ラインです！";
     msgEl.className = "score-message pass";
   } else {
@@ -472,14 +287,19 @@ function startReview() {
 }
 
 function retryQuiz() {
-  startQuiz();
+  startQuiz(currentLevel);
 }
 
-$("start-btn").addEventListener("click", startQuiz);
+function backToLevels() {
+  clearInterval(timerInterval);
+  showScreen("start-screen");
+}
+
 $("prev-btn").addEventListener("click", prevQuestion);
 $("next-btn").addEventListener("click", nextQuestion);
 $("retry-btn").addEventListener("click", retryQuiz);
 $("review-btn").addEventListener("click", startReview);
+$("back-btn").addEventListener("click", backToLevels);
 
 document.addEventListener("keydown", (e) => {
   if (!$("quiz-screen").classList.contains("active")) return;
@@ -489,3 +309,5 @@ document.addEventListener("keydown", (e) => {
     selectAnswer(currentQuestion, parseInt(e.key) - 1);
   }
 });
+
+buildLevelGrid();
